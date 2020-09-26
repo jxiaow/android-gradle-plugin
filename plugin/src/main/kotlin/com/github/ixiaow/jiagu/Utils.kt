@@ -1,5 +1,6 @@
 package com.github.ixiaow.jiagu
 
+
 import java.io.File
 import java.io.IOException
 import java.nio.charset.Charset
@@ -38,11 +39,12 @@ fun forNameCharsetOrNull(charset: String): Charset? {
     }
 }
 
+
 /**
- * 计算文件的md5
+ * 计算文件的md5,出错的话返回null
  */
-fun File.calculateMD5(): String {
-    return try {
+fun File.calculateMD5(): String? {
+    return tryCaching {
         inputStream().use { input ->
             val md5Digest = MessageDigest.getInstance("MD5")
             val buffer = ByteArray(8192)
@@ -51,18 +53,15 @@ fun File.calculateMD5(): String {
                 md5Digest.update(buffer, 0, lenght)
             }
             val digest = md5Digest.digest()
-            return DatatypeConverter.printHexBinary(digest).toUpperCase(Locale.US)
+            DatatypeConverter.printHexBinary(digest).toUpperCase(Locale.US)
         }
-    } catch (e: Exception) {
-        log(e.message)
-        ""
     }
 }
 
 /**
  * 忽略异常
  */
-fun <R> tryCaching(block: () -> R): R? {
+inline fun <R> tryCaching(block: () -> R): R? {
     return try {
         block.invoke()
     } catch (e: Exception) {

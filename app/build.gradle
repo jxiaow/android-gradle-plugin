@@ -1,11 +1,15 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-//apply plugin: 'com.github.ixiaow.jiagu'
+apply plugin: 'com.github.ixiaow.jiagu'
 //
 //jiagu {
 //    buildTypes = ["release"]
 //}
+jiagu {
+    buildTypes = ["release"]
+    home = ""
+}
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.2"

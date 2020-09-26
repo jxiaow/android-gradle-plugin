@@ -1,8 +1,8 @@
 plugins {
     kotlin("jvm")
     id("org.jetbrains.dokka") version "1.4.0-rc"
-    `maven-publish`
     id("com.github.dcendents.android-maven")
+    `maven-publish`
 }
 
 @kotlin.Suppress("GradleDependency")
@@ -71,9 +71,9 @@ publishing {
                     }
                 }
                 scm {
-                    connection.set("scm:git:git://github.com/ixiaow/AndroidGradlePlugin.git")
-                    developerConnection.set("scm:git:ssh://githu.com/ixiaow/AndroidGradlePlugin.git")
-                    url.set("https://github.com/ixiaow/AndroidGradlePlugin/")
+                    connection.set("scm:git:git://github.com/ixiaow/android-gradle-plugin.git")
+                    developerConnection.set("scm:git:ssh://githu.com/ixiaow/android-gradle-plugin.git")
+                    url.set("https://github.com/ixiaow/android-gradle-plugin/")
                 }
             }
         }
@@ -85,11 +85,5 @@ publishing {
             val snapshotsRepoUrl = uri("$buildDir/repos/snapshots")
             url = if (version.toString().endsWith("SNAPSHOT")) snapshotsRepoUrl else releasesRepoUrl
         }
-    }
-}
-
-tasks.javadoc {
-    if (JavaVersion.current().isJava9Compatible) {
-        (options as StandardJavadocDocletOptions).addBooleanOption("html5", true)
     }
 }

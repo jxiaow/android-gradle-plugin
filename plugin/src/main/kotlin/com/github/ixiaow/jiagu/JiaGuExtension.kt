@@ -6,13 +6,34 @@ import com.android.builder.model.SigningConfig
  * 在Gradle中配置的"jiagu"参数实例映射
  */
 open class JiaGuExtension(
-    var home: String? = null, // 360加固可执行程序的根目录是根目录
-    var buildTypes: Array<String> = arrayOf(), // 需要加固的编译类型，如 release debug
-    var config: Array<String> = arrayOf(), // 加固的可选配置
-    var username: String? = null, // 360加固的用户名
-    var password: String? = null, // 360加固的登录密码
-    var signingConfig: SigningConfig? = null, // apk的签名文件，默认自动获取android配置下的签名文件
-    var charsetName: String = "UTF-8" // 控制台输出编码方式，360加固在某些终端上输出信息会有乱码存在
+    /**
+     * 360加固可执行程序的根目录是根目录
+     */
+    var home: String? = null,
+    /**
+     * 需要加固的编译类型，如 release debug
+     */
+    var buildTypes: Array<String> = arrayOf(),
+    /**
+     * 加固的可选配置
+     */
+    var config: Array<String> = arrayOf(),
+    /**
+     * 360加固的用户名
+     */
+    var username: String? = null,
+    /**
+     * 360加固的登录密码
+     */
+    var password: String? = null,
+    /**
+     *  apk的签名文件，默认自动获取android配置下的签名文件
+     */
+    var signingConfig: SigningConfig? = null,
+    /**
+     * 控制台输出编码方式，360加固在某些终端上输出信息会有乱码存在
+     */
+    var charsetName: String = "UTF-8"
 )
 
 /**

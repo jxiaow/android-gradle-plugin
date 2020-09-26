@@ -34,35 +34,48 @@ class JiaGuCmds(extension: JiaGuExtension) {
     }
 
     /**********************************命令*********************************************/
-    //加固执行的bash命令
-    private val bashCmd = "java -jar ${baseDir}${File.separator}jiagu.jar"
+    /**
+     * 加固执行的bash命令
+     */
+    val bashCmd = "java -jar ${baseDir}${File.separator}jiagu.jar"
 
-    //登陆命令
-    private val loginCmd = "$bashCmd -login ${extension.username} ${extension.password}"
+    /**
+     * 执行登陆命令
+     */
+    val loginCmd = "$bashCmd -login ${extension.username} ${extension.password}"
 
-    //导入签名信息命令
-    private val importSignCmd = "$bashCmd -importsign ${extension.signingConfig.sign} "
+    /**
+     * 导入签名信息命令
+     */
+    val importSignCmd = "$bashCmd -importsign ${extension.signingConfig.sign} "
 
-    //展示签名信息命令
-    private val showSignCmd = "$bashCmd -showsign"
+    /**
+     * 展示签名信息命令
+     */
+    val showSignCmd = "$bashCmd -showsign"
 
-    //配置可选配置
-    private val configCmd: String? = extension.jiaGuConfig?.let { "$bashCmd -config $it" }
+    /**
+     * 配置可选配置
+     */
+    val configCmd: String? = extension.jiaGuConfig?.let { "$bashCmd -config $it" }
 
-    //显示配置信息
-    private val showConfigCmd = "$bashCmd -showconfig"
+    /**
+     * 显示配置信息
+     */
+    val showConfigCmd = "$bashCmd -showconfig"
 
-    //显示配置的版本
-    private val showVersionCmd = "$bashCmd -version"
+    /**
+     * 显示配置的版本
+     */
+    val showVersionCmd = "$bashCmd -version"
 
     /*******************************************************************************/
 
     /**
-     * 加固执行的命令
-     * @param cmd 命令
-     * @return 结果信息
+     * 利用控制台执行命令
+     * @return 结果信息，过滤了一些不相关的信息
      */
-    private fun String.executeCmd(): String {
+    fun String.executeCmd(): String {
         println("开始执行命令：$this")
         val p = this.execute()
         var result = p.text(charset)

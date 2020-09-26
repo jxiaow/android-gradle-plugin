@@ -24,6 +24,9 @@ open class JiaGuTask : DefaultTask() {
         description = "task: 在将Apk打包完成后，进行360加固操作!" // 添加任务描述
     }
 
+    /**
+     *  执行Apk文件加固流程
+     */
     @TaskAction
     fun action() {
         log("开始执行加固任务>>>>>>")
@@ -37,8 +40,7 @@ open class JiaGuTask : DefaultTask() {
             ?: android.signingConfigs.findByName("release")
         if (jiaGuExtension.signingConfig == null) {
             // 再次校验签名信息是否存在，不存在则做出提示
-            project.logger.error("release的签名文件不存在，请先配置!")
-            return
+            throw GradleException("release的签名文件不存在，请先配置!")
         }
         cmds = JiaGuCmds(jiaGuExtension)
         // 遍历得到符合编译类型的 applicationVariants
@@ -119,9 +121,9 @@ open class JiaGuTask : DefaultTask() {
         val prefix = apk.name.substringBefore(".apk")
         val jiaGuName = "${prefix}_${appVersion}_jiagu_sign.apk"
         val jiaGuApk = File(output, jiaGuName)
-        log("加固后的路径为：${jiaGuApk.absoluteFile}")
+        project.logger.info("加固后的路径为：${jiaGuApk.absoluteFile}")
         // 计算md5比对，如果一致则不再进行加固
-        val newMd5: String = apk.calculateMD5()
+        val newMd5: String? = apk.calculateMD5()
         // 获取文件中的md5
         val oldMd5 = hexMaps[apk.name]
         // 加固文件存在并且原始文件md5一致，则不再重新加固
@@ -134,8 +136,10 @@ open class JiaGuTask : DefaultTask() {
         // 加固成功后，回写文件
         if (ret) {
             tryCaching {
-                hexFile.writer().use { writer ->
-                    writer.append("${apk.name}:${newMd5}")
+                newMd5?.let {
+                    hexFile.writer().use { writer ->
+                        writer.append("${apk.name}:${it}")
+                    }
                 }
             }
         }

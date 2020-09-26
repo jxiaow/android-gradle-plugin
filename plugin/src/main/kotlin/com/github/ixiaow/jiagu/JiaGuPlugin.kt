@@ -1,13 +1,12 @@
 package com.github.ixiaow.jiagu
 
-import com.android.build.gradle.AppExtension
 import com.android.build.gradle.AppPlugin
 import org.gradle.api.GradleException
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 
 /**
- * 360加固插件
+ * 360加固插件，该插件必须要运行在[Android]项目中
  */
 class JiaGuPlugin : Plugin<Project> {
 
