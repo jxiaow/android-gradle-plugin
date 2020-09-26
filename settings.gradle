@@ -1,3 +1,0 @@
-include ':plugin'
-include ':app'
-rootProject.name = "android-gradle-plugin"
