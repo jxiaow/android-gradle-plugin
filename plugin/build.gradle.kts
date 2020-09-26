@@ -2,6 +2,7 @@ plugins {
     kotlin("jvm")
     id("org.jetbrains.dokka") version "1.4.0-rc"
     `maven-publish`
+    id("com.github.dcendents.android-maven")
 }
 
 @kotlin.Suppress("GradleDependency")
