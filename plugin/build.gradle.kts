@@ -22,7 +22,6 @@ repositories {
 group = "com.github.ixiaow"
 version = "1.0.0"
 
-
 tasks {
     val sourcesJar by registering(Jar::class) {
         dependsOn(JavaPlugin.CLASSES_TASK_NAME)
@@ -42,6 +41,8 @@ tasks {
         archives(jar)
     }
 }
+
+
 publishing {
     publications {
         create<MavenPublication>("maven") {
