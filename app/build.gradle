@@ -1,11 +1,23 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-//apply plugin: 'com.github.ixiaow.jiagu'
+apply plugin: 'com.github.ixiaow.jiagu'
 //
 //jiagu {
 //    buildTypes = ["release"]
 //}
+
+jiagu {
+    home '../360jiagu'
+    buildTypes 'release', 'debug'
+    configs '-crashlog'
+    username 'user'
+    password 'password'
+    charsetName 'GBK'
+    signingConfig {
+        keyAlias
+    }
+}
 
 android {
     compileSdkVersion 30

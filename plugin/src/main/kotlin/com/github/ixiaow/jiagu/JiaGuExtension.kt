@@ -30,16 +30,16 @@ open class JiaGuExtension(
     /**
      * 需要加固的编译类型，如 release debug
      */
-    internal val buildTypes: HashSet<String> = hashSetOf()
+    private val buildTypes: HashSet<String> = hashSetOf()
 
     /**
      * 加固的可选配置
      */
-    internal val configs: HashSet<String> = hashSetOf()
+    private val configs: HashSet<String> = hashSetOf()
 
 
     /**
-     * 添加需要加固的编译类型
+     * 需要加固的编译类型，如 release debug
      */
     open fun buildTypes(vararg buildTypes: String): JiaGuExtension {
         this.buildTypes.addAll(buildTypes)
@@ -53,8 +53,29 @@ open class JiaGuExtension(
         this.configs.addAll(configs)
         return this
     }
-}
 
+    /**
+     * 判断当前的编译类型[buildType]是否需要加固
+     */
+    fun isJiaGuBuildType(buildType: String) = this.buildTypes.contains(buildType)
+
+    /**
+     * 组成编译命令，如 assembleRelease
+     */
+    val buildTypeAssemblePaths: Array<String>
+        @Suppress("DefaultLocale")
+        get() = buildTypes.map { "assemble${it.capitalize()}" }.toTypedArray()
+
+    /**
+     * 获取加固的可选配置
+     */
+    val jiaGuConfig: String?
+        get() {
+            var result: String? = null
+            configs.forEach { content -> result = result?.let { " $content" } ?: content }
+            return result
+        }
+}
 
 /**
  * 获取加固所需要的签名信息
@@ -63,21 +84,4 @@ val SigningConfig?.sign: String
     get() {
         this ?: return ""
         return "$storeFile $storePassword $keyAlias $keyPassword"
-    }
-
-/**
- * 组成编译命令，如 assembleRelease
- */
-val JiaGuExtension.buildTypeAssemblePaths: Array<String>
-    @Suppress("DefaultLocale")
-    get() = buildTypes.map { "assemble${it.capitalize()}" }.toTypedArray()
-
-/**
- * 获取加固的可选配置
- */
-val JiaGuExtension.jiaGuConfig: String?
-    get() {
-        var result: String? = null
-        configs.forEach { content -> result = result?.let { " $content" } ?: content }
-        return result
     }

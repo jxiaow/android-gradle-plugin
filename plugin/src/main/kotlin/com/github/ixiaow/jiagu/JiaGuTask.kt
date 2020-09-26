@@ -45,7 +45,7 @@ open class JiaGuTask : DefaultTask() {
         cmds = JiaGuCmds(jiaGuExtension)
         // 遍历得到符合编译类型的 applicationVariants
         val variants = android.applicationVariants.filter {
-            jiaGuExtension.buildTypes.contains(it.buildType.name)
+            jiaGuExtension.isJiaGuBuildType(it.buildType.name)
         }
         // 遍历符合编译类型的applicationVariants,获取apk路径
         variants.forEach { variant ->
