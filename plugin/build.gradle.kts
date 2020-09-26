@@ -20,7 +20,7 @@ repositories {
 }
 
 group = "com.github.ixiaow"
-version = "1.0.0"
+version = "1.0.1"
 
 tasks {
     val sourcesJar by registering(Jar::class) {
@@ -46,7 +46,7 @@ tasks {
 publishing {
     publications {
         create<MavenPublication>("maven") {
-            artifactId = "plugin"
+            artifactId = "android-gradle-plugin"
             from(components["java"])
             artifact(tasks["sourcesJar"])
             artifact(tasks["javadocJar"])

@@ -6,10 +6,7 @@ apply plugin: 'com.github.ixiaow.jiagu'
 //jiagu {
 //    buildTypes = ["release"]
 //}
-jiagu {
-    buildTypes = ["release"]
-    home = ""
-}
+
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.2"

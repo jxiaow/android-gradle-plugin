@@ -1,0 +1,1 @@
+https://ixiaow.github.io/android-gradle-plugin/plugin/com.github.ixiaow.jiagu/index.html

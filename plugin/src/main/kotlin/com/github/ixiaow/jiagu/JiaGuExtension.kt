@@ -11,14 +11,6 @@ open class JiaGuExtension(
      */
     var home: String? = null,
     /**
-     * 需要加固的编译类型，如 release debug
-     */
-    var buildTypes: Array<String> = arrayOf(),
-    /**
-     * 加固的可选配置
-     */
-    var config: Array<String> = arrayOf(),
-    /**
      * 360加固的用户名
      */
     var username: String? = null,
@@ -34,7 +26,35 @@ open class JiaGuExtension(
      * 控制台输出编码方式，360加固在某些终端上输出信息会有乱码存在
      */
     var charsetName: String = "UTF-8"
-)
+) {
+    /**
+     * 需要加固的编译类型，如 release debug
+     */
+    internal val buildTypes: HashSet<String> = hashSetOf()
+
+    /**
+     * 加固的可选配置
+     */
+    internal val configs: HashSet<String> = hashSetOf()
+
+
+    /**
+     * 添加需要加固的编译类型
+     */
+    open fun buildTypes(vararg buildTypes: String): JiaGuExtension {
+        this.buildTypes.addAll(buildTypes)
+        return this
+    }
+
+    /**
+     * 添加加固的配置选项
+     */
+    open fun configs(vararg configs: String): JiaGuExtension {
+        this.configs.addAll(configs)
+        return this
+    }
+}
+
 
 /**
  * 获取加固所需要的签名信息
@@ -58,6 +78,6 @@ val JiaGuExtension.buildTypeAssemblePaths: Array<String>
 val JiaGuExtension.jiaGuConfig: String?
     get() {
         var result: String? = null
-        config.forEach { content -> result = result?.let { " $content" } ?: content }
+        configs.forEach { content -> result = result?.let { " $content" } ?: content }
         return result
     }

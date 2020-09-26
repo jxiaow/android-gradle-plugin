@@ -4,10 +4,10 @@ buildscript {
     repositories {
         google()
         jcenter()
-//        maven {
-//            url uri('./plugin/build/repos/releases')
-//        }
-//
+        maven {
+            url uri('./plugin/build/repos/releases')
+        }
+
         maven {
             url uri("https://jitpack.io")
         }
@@ -16,7 +16,7 @@ buildscript {
         classpath "com.android.tools.build:gradle:4.0.1"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
-        classpath 'com.github.ixiaow:android-gradle-plugin:550a509b83'
+        classpath 'com.github.ixiaow:android-gradle-plugin:1.0.1'
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
@@ -26,9 +26,9 @@ allprojects {
     repositories {
         google()
         jcenter()
-//        maven {
-//            url uri('./plugin/build/repos/releases')
-//        }
+        maven {
+            url uri('./plugin/build/repos/releases')
+        }
         maven {
             url uri("https://jitpack.io")
         }
