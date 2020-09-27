@@ -17,11 +17,14 @@ allprojects {
 
 dependencies {
     ...
+    classpath 'com.android.tools.build:gradle:4.0.1'
     classpath 'com.github.ixiaow:android-gradle-plugin:$version'
 }
 ```
 
 (请替换 `$version`为最新的版本号:[![](https://jitpack.io/v/ixiaow/android-gradle-plugin.svg)](https://jitpack.io/#ixiaow/android-gradle-plugin))
+
+**tips:** `com.android.tools.build:gradle`的版本号必须>= 4.0.1
 
 * 在`app`的模块`build.gradle`中添加：
 
