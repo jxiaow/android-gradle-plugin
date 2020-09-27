@@ -24,7 +24,17 @@ class JiaGuPlugin : Plugin<Project> {
             // 获取加固配置
             val jiaGuExtension = project.extensions.getByType(JiaGuExtension::class.java)
             // 创建 jiaGuApk 任务
-            project.tasks.create("jiaGuApk", JiaGuTask::class.java)
+            project.tasks.create("jiaGuApk", JiaGuTask::class.java) { jiaGuTask ->
+                // 在执行第一个preXXxBuild任务时 进行参数校验，可有效的解决，apk打包完成后，参数出现问题
+                jiaGuExtension.getBuildTypes().forEach { type ->
+                    project.tasks.find { it.name.contains("pre${type.capitalize()}Build") }
+                        ?.let {
+                            log("在${it.name}任务中校验加固参数")
+                            it.doFirst { jiaGuTask.validateJiaGuParams() }
+                            return@forEach
+                        }
+                }
+            }
                 // jiaGuApk的任务需要依赖assembleXXX, 其中XXX 表示 "jiaGu"配置中的buildType值
                 .dependsOn(jiaGuExtension.buildTypeAssemblePaths)
         }

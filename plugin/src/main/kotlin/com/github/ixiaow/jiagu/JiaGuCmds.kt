@@ -8,7 +8,7 @@ import java.nio.charset.Charset
  */
 class JiaGuCmds(extension: JiaGuExtension) {
     //360加固的根目录 jiagu
-    private val baseDir: String
+    private val baseDir: String = "${extension.home}${File.separator}jiagu"
 
     /**
      * 判断用户是否已经登录
@@ -21,13 +21,6 @@ class JiaGuCmds(extension: JiaGuExtension) {
     private var charset: Charset = Charset.defaultCharset()
 
     init {
-        // 参数校验
-        requireNotNull(extension.home)
-        requireNotNull(extension.username)
-        requireNotNull(extension.password)
-        requireNotNull(extension.signingConfig)
-
-        baseDir = "${extension.home}${File.separator}jiagu"
         require(File(baseDir).exists()) { "在$baseDir 中找不到可执行文件!" }
         // 设置编码格式
         charset = forNameCharsetOrNull(extension.charsetName) ?: charset
@@ -110,7 +103,7 @@ class JiaGuCmds(extension: JiaGuExtension) {
      * 执行加固 [apkFile] 需要加固的原始文件, [output] 加固后文件的输出目录
      */
     fun jiagu(apkFile: File, output: String): Boolean {
-        log("对${apkFile.name}进行加固流程处理>>>>>>")
+        log("对${apkFile.name}进行加固流程处理")
         // 检测需要加固的Apk是否存在
         require(apkFile.exists()) { "需要加固的apk文件: ${apkFile.absoluteFile}不存在!" }
         // 如果已经登录则不再进行登录

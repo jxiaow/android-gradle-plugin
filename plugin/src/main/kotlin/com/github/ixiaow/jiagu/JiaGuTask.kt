@@ -12,6 +12,8 @@ import java.io.File
 open class JiaGuTask : DefaultTask() {
     // 加固命令实例
     private lateinit var cmds: JiaGuCmds
+    private val jiaGuExtension: JiaGuExtension
+    private val android: AppExtension
 
     // app版本号，此处的版本号去掉了中间的间隔".",如：2.16.1--> 2161
     private lateinit var appVersion: String
@@ -22,6 +24,8 @@ open class JiaGuTask : DefaultTask() {
     init {
         group = "android" // 将其归属于android组
         description = "task: 在将Apk打包完成后，进行360加固操作!" // 添加任务描述
+        android = project.extensions.getByType(AppExtension::class.java)
+        jiaGuExtension = project.extensions.getByType(JiaGuExtension::class.java)
     }
 
     /**
@@ -29,23 +33,18 @@ open class JiaGuTask : DefaultTask() {
      */
     @TaskAction
     fun action() {
-        log("开始执行加固任务>>>>>>")
-        val android = project.extensions.getByType(AppExtension::class.java)
+        log("开始执行加固任务")
         // 获取App版本
         appVersion = android.defaultConfig.versionName.replace(".", "")
-        // 获取加固配置
-        val jiaGuExtension = project.extensions.getByType(JiaGuExtension::class.java)
-        // 如果jiagu配置中未设置签名文件，那么直接获取release的签名文件信息
-        jiaGuExtension.signingConfig = jiaGuExtension.signingConfig
-            ?: android.signingConfigs.findByName("release")
-        if (jiaGuExtension.signingConfig == null) {
-            // 再次校验签名信息是否存在，不存在则做出提示
-            throw GradleException("release的签名文件不存在，请先配置!")
-        }
+        log("加固参数：${jiaGuExtension.signingConfig}")
         cmds = JiaGuCmds(jiaGuExtension)
         // 遍历得到符合编译类型的 applicationVariants
         val variants = android.applicationVariants.filter {
             jiaGuExtension.isJiaGuBuildType(it.buildType.name)
+        }
+        if (variants.isEmpty()) {
+            project.logger.warn("未配置加固编译类型，结束加固任务!")
+            return
         }
         // 遍历符合编译类型的applicationVariants,获取apk路径
         variants.forEach { variant ->
@@ -67,7 +66,7 @@ open class JiaGuTask : DefaultTask() {
             log("${directory}不存在，跳过对该目录下的文件进行加固操作!")
             return
         }
-        log("正在对目录${directory}下的Apk文件进行加固>>>>>>")
+        log("正在对目录${directory}下的Apk文件进行加固")
         // 先读取hex值
         val hexFile = File(directory, "hex")
         hexFile.existsOrCreate { readHexInfo(hexMaps, hexFile) }
@@ -75,7 +74,7 @@ open class JiaGuTask : DefaultTask() {
         dir.listFiles { file ->
             !file.isDirectory && file.name.endsWith(".apk")
         }?.forEach { apkFile ->
-            log("开始对${apkFile.name}进行加固>>>>>>")
+            log("开始对${apkFile.name}进行加固")
             // 只对apk进行加固
             if (!execute(apkFile, hexFile)) { //每个apk如果加固失败，会重试一次
                 if (!execute(apkFile, hexFile)) {
@@ -144,5 +143,15 @@ open class JiaGuTask : DefaultTask() {
             }
         }
         return ret
+    }
+
+    /**
+     * "jiagu"参数校验
+     */
+    fun validateJiaGuParams() {
+        // 如果 "jiagu" 配置中未设置签名文件，那么直接获取release的签名文件信息
+        jiaGuExtension.signingConfig = jiaGuExtension.signingConfig
+            ?: android.signingConfigs.findByName("release")
+        jiaGuExtension.validateJiaGuParams()
     }
 }

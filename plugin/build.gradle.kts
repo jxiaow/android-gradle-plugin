@@ -20,7 +20,7 @@ repositories {
 }
 
 group = "com.github.ixiaow"
-version = "1.0.0"
+version = "1.0.1"
 
 tasks {
     val sourcesJar by registering(Jar::class) {

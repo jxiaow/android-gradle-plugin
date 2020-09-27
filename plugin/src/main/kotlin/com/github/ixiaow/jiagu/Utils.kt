@@ -25,7 +25,7 @@ fun Process.text(charset: Charset): String {
  * 输出加固日志
  */
 fun log(msg: String?) {
-    msg?.let { println("JiaGu -->  $it") }
+    msg?.let { println("JiaGu >>> $it") }
 }
 
 /**

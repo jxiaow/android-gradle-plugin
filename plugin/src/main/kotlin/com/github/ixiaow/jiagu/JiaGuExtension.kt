@@ -47,6 +47,11 @@ open class JiaGuExtension(
     }
 
     /**
+     * 获取加固的编译类型
+     */
+    fun getBuildTypes(): Set<String> = buildTypes
+
+    /**
      * 添加加固的配置选项
      */
     open fun configs(vararg configs: String): JiaGuExtension {
@@ -75,6 +80,17 @@ open class JiaGuExtension(
             configs.forEach { content -> result = result?.let { " $content" } ?: content }
             return result
         }
+
+    /**
+     * 进行加固参数校验
+     */
+    fun validateJiaGuParams() {
+        // 参数校验
+        requireNotNull(home) { "360加固程序根目录不能为空!" }
+        requireNotNull(username) { "360加固用户名不能为空!" }
+        requireNotNull(password) { "360加固密码不能为空!" }
+        requireNotNull(signingConfig) { "无法找到Apk的签名文件不存在，请先配置release签名文件!" }
+    }
 }
 
 /**
