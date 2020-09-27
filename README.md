@@ -1,4 +1,4 @@
-# Android-Gradle-Plugin
+# Android-Gradle-Plugin [![](https://jitpack.io/v/ixiaow/android-gradle-plugin.svg)](https://jitpack.io/#ixiaow/android-gradle-plugin)
 
 一款实现了360加固的Gradle插件，在自动编译打包后进行360加固流程操作。
 
