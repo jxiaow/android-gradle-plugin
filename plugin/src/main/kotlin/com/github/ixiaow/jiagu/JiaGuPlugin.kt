@@ -34,16 +34,18 @@ class JiaGuPlugin : Plugin<Project> {
                     return@create
                 }
                 val buildType = jiaGuExtension.getBuildTypes().first().capitalize()
+                // 添加了渠道包时，就需要将渠道名拼接上
                 val taskName = if (!android.productFlavors.isNullOrEmpty()) {
                     val flavor = android.productFlavors.first().name.capitalize()
                     "pre${flavor}${buildType}Build"
                 } else {
                     "pre${buildType}Build"
                 }
-                log("taskName: $taskName")
-                project.tasks.find { it.name.contains(taskName) }?.let {
-                    log("在${it.name}任务中校验加固参数")
-                    it.doFirst { jiaGuTask.validateJiaGuParams() }
+                project.tasks.find { it.name.contains(taskName) }?.let { task ->
+                    task.doFirst {
+                        log("在${it.name}任务中校验加固参数")
+                        jiaGuTask.validateJiaGuParams()
+                    }
                 }
             }
                 // jiaGuApk的任务需要依赖assembleXXX, 其中XXX 表示 "jiaGu"配置中的buildType值

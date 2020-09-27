@@ -37,9 +37,8 @@ open class JiaGuTask : DefaultTask() {
         appVersion = android.defaultConfig.versionName.replace(".", "")
         cmds = JiaGuCmds(jiaGuExtension)
         // 遍历得到符合编译类型的 applicationVariants
-        val variants = android.applicationVariants.filter {
-            jiaGuExtension.isJiaGuBuildType(it.buildType.name)
-        }
+        val variants = android.applicationVariants.distinctBy { it.buildType.name }.asSequence()
+            .filter { jiaGuExtension.isJiaGuBuildType(it.buildType.name) }.toList()
         if (variants.isEmpty()) {
             project.logger.warn("配置的加固类型，与编译类型不匹配!")
             return
@@ -72,7 +71,6 @@ open class JiaGuTask : DefaultTask() {
         dir.listFiles { file ->
             !file.isDirectory && file.name.endsWith(".apk")
         }?.forEach { apkFile ->
-            log("开始对${apkFile.name}进行加固")
             // 只对apk进行加固
             if (!execute(apkFile, hexFile)) { //每个apk如果加固失败，会重试一次
                 if (!execute(apkFile, hexFile)) {
@@ -82,20 +80,6 @@ open class JiaGuTask : DefaultTask() {
         }
     }
 
-    /**
-     * 读取hex文件
-     */
-    private fun readHexInfo(hexMaps: MutableMap<String, String>, hexFile: File) {
-        val hexMap = hexFile.readLines().asSequence().mapNotNull {
-            val info = it.split(":")
-            if (info.size == 2) {
-                info[0] to info[1]
-            } else {
-                null
-            }
-        }.toMap()
-        hexMaps.putAll(hexMap)
-    }
 
     /**
      * 文件进行加固处理[apk] 需要加固的apk, [hexFile] 该buildType目录下对应的hex文件
@@ -118,29 +102,55 @@ open class JiaGuTask : DefaultTask() {
         val prefix = apk.name.substringBefore(".apk")
         val jiaGuName = "${prefix}_${appVersion}_jiagu_sign.apk"
         val jiaGuApk = File(output, jiaGuName)
-        project.logger.info("加固后的路径为：${jiaGuApk.absoluteFile}")
         // 计算md5比对，如果一致则不再进行加固
         val newMd5: String? = apk.calculateMD5()
         // 获取文件中的md5
         val oldMd5 = hexMaps[apk.name]
+        log("name ${apk.name}, md5: $oldMd5 , newMd5: $newMd5")
         // 加固文件存在并且原始文件md5一致，则不再重新加固
         if (jiaGuApk.exists() && newMd5 == oldMd5) {
             log("检测到 ${jiaGuApk.absoluteFile} 已经存在，所以不再进行加固处理!")
             return true
         }
         // 开始加固处理
-        val ret = cmds.jiagu(apk, output.absolutePath)
+        val ret = cmds.jiagu(apk, jiaGuApk)
         // 加固成功后，回写文件
         if (ret) {
-            tryCaching {
-                newMd5?.let {
-                    hexFile.writer().use { writer ->
-                        writer.append("${apk.name}:${it}")
-                    }
-                }
+            newMd5?.let {
+                writeHexFile(apk.name, it, hexFile)
             }
         }
         return ret
+    }
+
+    /**
+     * 读取hex文件
+     */
+    private fun readHexInfo(hexMaps: MutableMap<String, String>, hexFile: File) {
+        val hexMap = hexFile.readLines().asSequence().mapNotNull {
+            val info = it.split(":")
+            if (info.size == 2) {
+                info[0] to info[1]
+            } else {
+                null
+            }
+        }.toMap()
+        hexMaps.putAll(hexMap)
+    }
+
+    /**
+     * 回写hex文件
+     */
+    private fun writeHexFile(apkName: String, md5: String, hexFile: File) {
+        tryCaching {
+            hexMaps[apkName] = md5
+            hexFile.writer().use { writer ->
+                writer.write("")
+                for (hexMap in hexMaps) {
+                    writer.append("${hexMap.key}:${hexMap.value}\n")
+                }
+            }
+        }
     }
 
     /**
