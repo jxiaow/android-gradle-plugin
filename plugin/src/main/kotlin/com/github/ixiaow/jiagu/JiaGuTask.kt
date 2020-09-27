@@ -34,16 +34,14 @@ open class JiaGuTask : DefaultTask() {
     @TaskAction
     fun action() {
         log("开始执行加固任务")
-        // 获取App版本
         appVersion = android.defaultConfig.versionName.replace(".", "")
-        log("加固参数：${jiaGuExtension.signingConfig}")
         cmds = JiaGuCmds(jiaGuExtension)
         // 遍历得到符合编译类型的 applicationVariants
         val variants = android.applicationVariants.filter {
             jiaGuExtension.isJiaGuBuildType(it.buildType.name)
         }
         if (variants.isEmpty()) {
-            project.logger.warn("未配置加固编译类型，结束加固任务!")
+            project.logger.warn("配置的加固类型，与编译类型不匹配!")
             return
         }
         // 遍历符合编译类型的applicationVariants,获取apk路径
