@@ -42,7 +42,8 @@ open class JiaGuExtension(
      * 需要加固的编译类型，如 release debug
      */
     open fun buildTypes(vararg buildTypes: String): JiaGuExtension {
-        this.buildTypes.addAll(buildTypes)
+        val filter = buildTypes.asSequence().filterNot { it.isEmpty() || it.isBlank() }
+        this.buildTypes.addAll(filter)
         return this
     }
 

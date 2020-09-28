@@ -22,8 +22,8 @@ open class JiaGuTask : DefaultTask() {
     private val hexMaps = mutableMapOf<String, String>()
 
     init {
-        group = "android" // 将其归属于android组
-        description = "task: 在将Apk打包完成后，进行360加固操作!" // 添加任务描述
+        group = "jiagu" // 将其归属于android组
+        description = "在将Apk打包完成后，进行加固操作!" // 添加任务描述
         android = project.extensions.getByType(AppExtension::class.java)
         jiaGuExtension = project.extensions.getByType(JiaGuExtension::class.java)
     }
