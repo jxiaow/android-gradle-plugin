@@ -1,4 +1,4 @@
-# Android-Gradle-Plugin [![](https://jitpack.io/v/ixiaow/android-gradle-plugin.svg)](https://jitpack.io/#ixiaow/android-gradle-plugin)
+# Android-Gradle-Plugin [![](https://jitpack.io/v/jxiaow/android-gradle-plugin.svg)](https://jitpack.io/#jxiaow/android-gradle-plugin)
 
 一款实现了360加固的Gradle插件，在自动编译打包后进行360加固流程操作。
 
@@ -18,11 +18,11 @@ allprojects {
 dependencies {
     ...
     classpath 'com.android.tools.build:gradle:4.0.1'
-    classpath 'com.github.ixiaow:android-gradle-plugin:$version'
+    classpath 'com.github.jxiaow:android-gradle-plugin:$version'
 }
 ```
 
-(请替换 `$version`为最新的版本号:[![](https://jitpack.io/v/ixiaow/android-gradle-plugin.svg)](https://jitpack.io/#ixiaow/android-gradle-plugin))
+(请替换 `$version`为最新的版本号:[![](https://jitpack.io/v/jxiaow/android-gradle-plugin.svg)](https://jitpack.io/#jxiaow/android-gradle-plugin))
 
 **tips:** `com.android.tools.build:gradle`的版本号必须>= 4.0.1
 
@@ -65,7 +65,7 @@ jiagu {
 
 ### 文档
 
-[android-gradle-plugin](https://ixiaow.github.io/android-gradle-plugin/plugin/com.github.ixiaow.jiagu/index.html)
+[android-gradle-plugin](https://jxiaow.github.io/android-gradle-plugin/plugin/com.github.jxiaow.jiagu/index.html)
 
 ### 360加固助手
 
