@@ -29,7 +29,7 @@ dependencies {
 * 在`app`的模块`build.gradle`中添加：
 
 ```groovy
-apply plugin: 'com.github.ixiaow.jiagu'
+apply plugin: 'com.github.jxiaow.jiagu'
 ```
 
 #### 2. 参数配置
