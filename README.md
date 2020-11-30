@@ -65,7 +65,7 @@ jiagu {
 
 ### 文档
 
-[android-gradle-plugin](https://jxiaow.github.io/android-gradle-plugin/plugin/com.github.jxiaow.jiagu/index.html)
+[android-gradle-plugin](https://jxiaow.github.io/android-gradle-plugin/plugin/com.github.ixiaow.jiagu/index.html)
 
 ### 360加固助手
 
