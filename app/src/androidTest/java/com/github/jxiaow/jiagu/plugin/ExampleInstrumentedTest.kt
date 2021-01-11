@@ -1,4 +1,4 @@
-package com.github.ixiaow.jiagu.plugin
+package com.github.jxiaow.jiagu.plugin
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

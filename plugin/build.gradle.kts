@@ -19,8 +19,8 @@ repositories {
     jcenter()
 }
 
-group = "com.github.ixiaow"
-version = "1.0.1"
+group = "com.github.jxiaow"
+version = "1.0.4"
 
 tasks {
     val sourcesJar by registering(Jar::class) {
@@ -65,15 +65,15 @@ publishing {
                 }
                 developers {
                     developer {
-                        id.set("ixiaow")
-                        name.set("ixiaow")
-                        email.set("i.xiaowujiang@gmail.com")
+                        id.set("jxiaow")
+                        name.set("jxiaow")
+                        email.set("jxiaow@126.com")
                     }
                 }
                 scm {
-                    connection.set("scm:git:git://github.com/ixiaow/android-gradle-plugin.git")
-                    developerConnection.set("scm:git:ssh://githu.com/ixiaow/android-gradle-plugin.git")
-                    url.set("https://github.com/ixiaow/android-gradle-plugin/")
+                    connection.set("scm:git:git://github.com/jxiaow/android-gradle-plugin.git")
+                    developerConnection.set("scm:git:ssh://githu.com/jxiaow/android-gradle-plugin.git")
+                    url.set("https://github.com/jxiaow/android-gradle-plugin/")
                 }
             }
         }

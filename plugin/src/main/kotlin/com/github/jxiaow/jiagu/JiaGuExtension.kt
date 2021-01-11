@@ -1,4 +1,4 @@
-package com.github.ixiaow.jiagu
+package com.github.jxiaow.jiagu
 
 import com.android.builder.model.SigningConfig
 

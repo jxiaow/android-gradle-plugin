@@ -1,4 +1,4 @@
-package com.github.ixiaow.jiagu.plugin
+package com.github.jxiaow.jiagu.plugin
 
 import org.junit.Test
 

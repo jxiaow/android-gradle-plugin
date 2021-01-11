@@ -1,4 +1,4 @@
-package com.github.ixiaow.jiagu
+package com.github.jxiaow.jiagu
 
 import com.android.build.gradle.AppExtension
 import com.android.build.gradle.AppPlugin
