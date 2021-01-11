@@ -1,0 +1,5 @@
+$dokka.format:jekyll
+$dokka.linkExtension:md
+
+com.github.jxiaow.jiagu
+
