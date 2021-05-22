@@ -12,7 +12,7 @@
 buildscript {
     // ...
     repositories {
-				// ...
+	// ...
         maven { url "https://jitpack.io" }
     }
     dependencies {
@@ -46,25 +46,25 @@ android {
   
   // 配置apk签名
   signingConfigs {
-        release {
-            storeFile file('签名文件路径')
-            storePassword '文件存储密码'
-            keyAlias '签名文件简称'
-            keyPassword '签名文件密码'
-        }
-    }
+	release {
+	    storeFile file('签名文件路径')
+	    storePassword '文件存储密码'
+	    keyAlias '签名文件简称'
+	    keyPassword '签名文件密码'
+	}
+  }
 
-  	// 加固参数配置
-    jiagu {
-        home '../360jiagu' // 360加固软件的根目录
-        buildTypes 'release', 'debug' // 需要加固的编译类型
-        configs '-crashlog' // 选择360的可选配置服务
-        username 'user' // 360加固用户名
-        password 'password' // 360加固密码
-        charsetName 'GBK' // 360加固控制台输出字符编码
-        // apk签名文件， 如果在Android中配置了签名文件，此项可以不用配置，插件会自动读取名为'release'的签名文件
-        signingConfig signingConfigs.release
-    }
+  // 加固参数配置
+  jiagu {
+     home '../360jiagu' // 360加固软件的根目录
+     buildTypes 'release', 'debug' // 需要加固的编译类型
+     configs '-crashlog' // 选择360的可选配置服务
+     username 'user' // 360加固用户名
+     password 'password' // 360加固密码
+     charsetName 'GBK' // 360加固控制台输出字符编码
+     // apk签名文件， 如果在Android中配置了签名文件，此项可以不用配置，插件会自动读取名为'release'的签名文件
+     signingConfig signingConfigs.release
+   }
 }
 ```
 
